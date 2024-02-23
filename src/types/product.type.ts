@@ -15,7 +15,7 @@ export interface productType {
 
 export interface size {
   id?: number | string;
-  size?: string;
+  sizeName?: string;
 }
 
 export interface Pagination {
