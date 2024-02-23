@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: 100%;
+  line-height: 1.2;
+}
+
+body {
+  font-family: "SVN-Gotham";
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+@font-face {
+  font-family: "SVN-Gotham";
+  src: url("./assets/Fonts/SVN-GothamBold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "SVN-Gotham";
+  src: url("./assets/Fonts/SVN-GothamLight.ttf") format("truetype");
+  font-weight: 500;
+}

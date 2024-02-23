@@ -1,0 +1,9 @@
+.product-cart {
+  &__action {
+    a:hover {
+      background-color: #1c1c1c;
+      color: white;
+      transition: 0.5s ease-in-out;
+    }
+  }
+}
