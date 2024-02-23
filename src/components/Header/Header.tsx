@@ -48,7 +48,7 @@ export function Header({}: HeaderProps) {
             </ul>
           </div>
         </div>
-        <nav className="header-bottom py-1 border-y-[1px] px-20">
+        <nav className="header-bottom py-1 border-t-[1px] px-20">
           <ul className="flex justify-between items-center">
             {listCategory.map((category, index) => (
               <li key={index} className="m-2 uppercase text-lg tracking-widest">
