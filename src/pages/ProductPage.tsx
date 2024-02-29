@@ -1,4 +1,4 @@
-import * as React from "react";
+import {} from "react";
 import { Header } from "../components";
 import ProductFeature from "../Feature/ProductFeature/ProductFeature";
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import {} from "react";
 import { Pagination as PaginationType } from "../../../../types";
 
 export interface PaginationProps {

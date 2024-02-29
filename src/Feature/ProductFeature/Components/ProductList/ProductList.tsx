@@ -1,4 +1,4 @@
-import * as React from "react";
+import {} from "react";
 import { Product as ProductType } from "../../../../types";
 import { Product } from "../Product/Product";
 import { Link, useLocation } from "react-router-dom";

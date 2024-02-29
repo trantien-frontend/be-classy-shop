@@ -1,7 +1,7 @@
 import {} from "react";
 
 import "./App.css";
-import { Route, Routes, useRoutes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage/HomePage";
 import NotFound from "./pages/NotFound";
 import ProductFeature from "./Feature/ProductFeature/ProductFeature";
