@@ -7,7 +7,7 @@ export interface ProductListProps {
   products: ProductType[];
 }
 
-export default function ProductList({ products }: ProductListProps) {
+export function ProductList({ products }: ProductListProps) {
   const { pathname } = useLocation();
   return (
     <div className="mt-5">

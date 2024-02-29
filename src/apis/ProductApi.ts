@@ -2,13 +2,14 @@ import { axiosClient } from "./axios";
 import { Products, Params, Product } from "../types";
 
 export const productApi = {
-  getAll(params?: Params): Promise<Products> {
-    const url = "products";
+  getAll(url: string, params?: Params) {
     return axiosClient.get(url, { params });
   },
 
+  getProductsByProductType() {},
+
   getProductById(id: number | string): Promise<Product> {
-    const url = `products/${id}`;
+    const url = `/product/${id}`;
     return axiosClient.get(url);
   },
 };

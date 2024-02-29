@@ -15,7 +15,6 @@ export interface ProductDetailProps {}
 
 export function ProductDetail({}: ProductDetailProps) {
   const { productId } = useParams();
-  const { pathname } = useLocation();
 
   const navLinkClass: (isActive: any) => string = ({ isActive }) => {
     return isActive ? "text-sky-400" : "";
@@ -23,7 +22,6 @@ export function ProductDetail({}: ProductDetailProps) {
 
   return (
     <section>
-      <Header />
       Chi tiết sản phẩm
       <ul className="flex">
         <li className="m-2">

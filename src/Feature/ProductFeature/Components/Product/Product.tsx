@@ -17,7 +17,9 @@ function truncateNameProduct(productName: string): string {
 }
 
 export function Product({ product }: ProductProps) {
-  const images = product.productImage.split(" ");
+  const { id, productImage, productType, productName, productPrice } = product;
+  const images = productImage.split(" ");
+
   const [indexImg, setIndexImage] = useState(images.length - 1);
 
   const handleIndexImage = (index: number) => {
@@ -29,23 +31,13 @@ export function Product({ product }: ProductProps) {
       <img src={images[indexImg]} alt="" />
       <ul className="list-img flex justify-center gap-1">
         {images.map((image, index) => {
-          if (index == indexImg) {
-            return (
-              <li
-                onClick={() => handleIndexImage(index)}
-                key={index}
-                className="border-[1px] basis-1/5 cursor-pointer"
-              >
-                <img src={image} alt="" />
-              </li>
-            );
-          }
-
           return (
             <li
-              onClick={() => handleIndexImage(index)}
               key={index}
-              className="border-[1px] basis-1/5 opacity-50 cursor-pointer"
+              className={`border-[1px] basis-1/5 cursor-pointer ${index == indexImg && " opacity-50"}`}
+              onClick={() => {
+                handleIndexImage(index);
+              }}
             >
               <img src={image} alt="" />
             </li>
@@ -54,12 +46,10 @@ export function Product({ product }: ProductProps) {
       </ul>
       <div className="product-content text-center duration-500 group-hover:invisible">
         <p className="font-medium text-base uppercase opacity-50">
-          {product.productType.productTypeName}
+          {productType.productTypeName}
         </p>
-        <h3 className="tracking-wider">
-          {truncateNameProduct(product.productName)}
-        </h3>
-        <p>{product.productPrice}</p>
+        <h3 className="tracking-wider">{truncateNameProduct(productName)}</h3>
+        <p>{productPrice}</p>
       </div>
       <div className="product-cart__action absolute left-0 bottom-0 w-full translate-y-24 duration-1000 group-hover:translate-y-0 ">
         <Link className="border-[2px] block text-center py-5 bg-white" to="/">

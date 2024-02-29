@@ -1,18 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { productApi } from "../../../../apis/ProductApi";
-import { Product, size } from "../../../../types";
+import { Product, Size } from "../../../../types";
+import QuantityController from "../../Components/QuantityController/QuantityController";
+import {
+  ProductDescription,
+  ProductRating,
+  ProductSizeGuide,
+} from "../../Components";
 
 export interface ProductDetailProps {}
 
-const INDEX_DEFAULT = 0;
+function handlePathName(url: string): string {
+  const listPath: string[] = ["dsc", "rate", "guide"];
+  const isPath = listPath.find((path) => url.includes(path));
+  return isPath ? url.slice(0, url.lastIndexOf("/")) : url;
+}
 
-export function ProductDetail({}: ProductDetailProps) {
+export function ProductDetail(props: ProductDetailProps) {
   const { productId } = useParams();
+  const { pathname } = useLocation();
   const [indexImage, setIndexImage] = useState<number>(0);
 
-  const { data } = useQuery({
+  const path = handlePathName(pathname);
+
+  const { data, isPending } = useQuery({
     queryKey: ["product", productId],
     queryFn: () => productApi.getProductById(productId as string),
   });
@@ -20,12 +42,19 @@ export function ProductDetail({}: ProductDetailProps) {
   if (!data) return null;
 
   const { data: productData }: Product | any = data;
+  const {
+    id,
+    productName,
+    productImage,
+    productPrice,
+    productType,
+    Sizes: listSize,
+  } = productData;
+
   const images: string[] = productData.productImage.split(" ");
 
-  const { productName, productPrice, productType, listSize } = productData;
-  console.log(listSize);
-
   return (
+    // breadcrumb
     <div>
       <div className="breadcrumb border-y-[1px]">
         <div className="container mx-auto">
@@ -42,7 +71,7 @@ export function ProductDetail({}: ProductDetailProps) {
           </ul>
         </div>
       </div>
-
+      {/* Product Detail */}
       <div className="container py-5 mx-auto">
         <div className="product flex">
           <div className="product_left basis-2/4">
@@ -66,7 +95,7 @@ export function ProductDetail({}: ProductDetailProps) {
               <div className="flex items-center">
                 <p>Kích thước: </p>
                 <ul className="flex gap-2">
-                  {listSize.map((size: size) => (
+                  {listSize.map((size: Size) => (
                     <li className="p-2 border-[1px]" key={size.id}>
                       {size.sizeName}
                     </li>
@@ -74,47 +103,29 @@ export function ProductDetail({}: ProductDetailProps) {
                 </ul>
               </div>
             )}
-            <div className="flex">
-              <button className="flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 12h14"
-                  />
-                </svg>
-              </button>
-              <input
-                type="text"
-                className="flex h-8 w-12 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600"
-              />
-              <button className="flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </button>
-            </div>
+            <QuantityController />
           </div>
         </div>
       </div>
+
+      <ul>
+        <li>
+          <NavLink to={`${path}/dsc`}>Mô tả sản phẩm</NavLink>
+        </li>
+        <li>
+          <NavLink to={`${path}/rate`}>Đánh giá sản phẩm</NavLink>
+        </li>
+        <li>
+          <NavLink to={`${path}/guide`}>Hướng dẫn chọn size</NavLink>
+        </li>
+      </ul>
+
+      <Routes>
+        <Route path="dsc" element={<ProductDescription />} />
+        <Route path="rate" element={<ProductRating />} />
+        <Route path="guide" element={<ProductSizeGuide />} />
+        <Route index element={<ProductDescription />} />
+      </Routes>
     </div>
   );
 }
