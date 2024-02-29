@@ -1,0 +1,26 @@
+// .check-box-custome {
+//   &::before {
+//     content: "";
+//     position: absolute;
+//     width: 55%;
+//     height: 55%;
+//     left: 50%;
+//     top: 50%;
+//     transform: translate(-50%, -50%);
+//     border-radius: 50%;
+//   }
+
+//   &:hover {
+//     border-color: #916841;
+//     &::before {
+//       background-color: #916841;
+//     }
+//   }
+
+//   &.active {
+//     border-color: #916841;
+//     &::before {
+//       background-color: #916841;
+//     }
+//   }
+// }

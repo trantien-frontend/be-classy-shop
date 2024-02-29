@@ -1,22 +1,17 @@
-import * as React from "react";
+import {} from "react";
 import logo from "../../assets/images/be-classy-logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { category } from "../../apis/CategoryApi";
+import { Menu } from "./components/Menu/Menu";
 
 interface HeaderProps {}
 
-interface Category {
-  categoryName: string;
-  routerName: string;
-}
-
 export function Header({}: HeaderProps) {
-  const listCategory: Category[] = [
-    { categoryName: " dress shoes", routerName: "/feature-product" },
-    { categoryName: " accessories", routerName: "/accessories" },
-    { categoryName: " collection", routerName: "/collection" },
-    { categoryName: " stores", routerName: "/" },
-    { categoryName: " service", routerName: "/" },
-  ];
+  const { data, isPending } = useQuery({
+    queryKey: ["categories"],
+    queryFn: category.getAll,
+  });
 
   return (
     <header>
@@ -48,19 +43,10 @@ export function Header({}: HeaderProps) {
             </ul>
           </div>
         </div>
-        <nav className="header-bottom py-1 border-t-[1px] px-20">
-          <ul className="flex justify-between items-center">
-            {listCategory.map((category, index) => (
-              <li key={index} className="m-2 uppercase text-lg tracking-widest">
-                <NavLink
-                  className={({ isActive }) => (isActive ? "text-sky-400" : "")}
-                  to={`${category.routerName}`}
-                >
-                  {category.categoryName}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+        <nav>
+          <div className="container mx-auto">
+            {!isPending && <Menu listCategory={data?.data} />}
+          </div>
         </nav>
       </div>
     </header>

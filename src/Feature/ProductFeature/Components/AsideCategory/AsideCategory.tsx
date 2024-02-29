@@ -10,7 +10,7 @@ const listCategory = [
   "Chích sách vận chuyển",
 ];
 
-export default function AsideCategory(props: AsideCategoryProps) {
+export function AsideCategory(props: AsideCategoryProps) {
   return (
     <div>
       <h3 className="text-xl tracking-wider pb-4">DANH MỤC</h3>
