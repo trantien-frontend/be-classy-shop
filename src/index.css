@@ -8,6 +8,7 @@ html {
 }
 
 body {
+  font-size: 14px;
   font-family: "SVN-Gotham";
   font-weight: 700;
   color: #1c1c1c;
@@ -21,6 +22,18 @@ body {
 
 @font-face {
   font-family: "SVN-Gotham";
-  src: url("./assets/Fonts/SVN-GothamLight.ttf") format("truetype");
+  src: url("./assets/Fonts/SVN-Gotham-Regular.otf") format("truetype");
   font-weight: 500;
+}
+
+@font-face {
+  font-family: "SVN-Gotham";
+  src: url("./assets/Fonts/SVN-Gotham-Book.otf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "SVN-Gotham";
+  src: url("./assets/Fonts/SVN-GothamLight.ttf") format("truetype");
+  font-weight: 300;
 }

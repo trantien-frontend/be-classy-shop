@@ -6,6 +6,7 @@ import { HomePage } from "./pages/HomePage/HomePage";
 import NotFound from "./pages/NotFound";
 import ProductFeature from "./Feature/ProductFeature/ProductFeature";
 import { Footer, Header } from "./components";
+import { LoginForm, RegisterForm } from "./Feature/Auth";
 
 function App() {
   // const routes = useRoutes([
@@ -27,6 +28,8 @@ function App() {
         <Route path="boots/*" element={<ProductFeature />} />
         <Route path="accessories/*" element={<ProductFeature />} />
         <Route path="collection/*" element={<ProductFeature />} />
+        <Route path="register" element={<RegisterForm />} />
+        <Route path="login" element={<LoginForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
