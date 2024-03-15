@@ -38,7 +38,7 @@ export function ProductFilter({ onFilterChange }: ProductFilterProps) {
   return (
     <div className="mb-5 py-5 border-b-[1px]">
       <div className="flex">
-        <h3>Xếp theo: </h3>
+        <h3 className="pr-3">Xếp theo: </h3>
         <ul className="flex">
           {listFilter.map(({ id, filterCategory, filterName }) => (
             <li
@@ -47,7 +47,7 @@ export function ProductFilter({ onFilterChange }: ProductFilterProps) {
                 handleFilterChange(filterCategory);
                 setIndex(id);
               }}
-              className="pr-2 font-medium flex cursor-pointer group"
+              className="pr-2 font-normal flex cursor-pointer group"
             >
               <i
                 className={`${customeCheckBox} ${beforeCustomeCheckBox} ${id === index ? "border-[#916841] before:bg-main" : ""}`}

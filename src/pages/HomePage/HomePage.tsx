@@ -1,51 +1,64 @@
-import { useEffect, useState } from "react";
-import { Footer, Header } from "../../components";
+import { useQuery } from "@tanstack/react-query";
+
 import { bannerApi } from "../../apis/bannerApi";
-import { Banner } from "../../types";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Slide } from "./components/Slide";
+import { productApi } from "../../apis";
+import { Product } from "../../types";
+import { ProductSection } from "./components/ProductSection";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
+function filterProducts(
+  products: Product[],
+  typeFilter: string,
+  nameFilter: string,
+): Product[] {
+  return typeFilter === "category"
+    ? products.filter((product) => product.category.categoryName === nameFilter)
+    : products.filter(
+        (product) => product.productType.productTypeName === nameFilter,
+      );
+}
 
-import "./style.scss";
+export function HomePage() {
+  const { data: banners, isPending: isBannersPending } = useQuery({
+    queryKey: ["banners"],
+    queryFn: () => bannerApi.getAll(),
+  });
 
-// import required modules
-import { Pagination } from "swiper/modules";
+  const { data: products, isPending: isProductsPending } = useQuery({
+    queryKey: ["listProduct"],
+    queryFn: () => productApi.getProducts(),
+  });
 
-export interface HomePageProps {}
+  let listProductHasTypeOxford: Product[] = [];
+  let listProductHasTypeLoafer: Product[] = [];
+  let listProductHasTypeLBoots: Product[] = [];
+  let listProductHasTypeDerby: Product[] = [];
+  let listProductHasAccesorries: Product[] = [];
 
-const initBanners: Banner[] = [];
-
-export function HomePage(props: HomePageProps) {
-  const [listBanner, setListBanner] = useState(initBanners);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await bannerApi.getAll();
-      setListBanner([...listBanner, ...data]);
-    })();
-  }, []);
+  if (!isProductsPending) {
+    const { data }: any = products;
+    listProductHasTypeOxford = filterProducts(data, "productType", "oxford");
+    listProductHasTypeLoafer = filterProducts(data, "productType", "loafer");
+    listProductHasTypeLBoots = filterProducts(data, "productType", "boots");
+    listProductHasTypeDerby = filterProducts(data, "productType", "derby");
+    listProductHasAccesorries = filterProducts(data, "category", "accessories");
+  }
 
   return (
-    <>
-      <main>
-        <div>
-          <Swiper
-            pagination={{
-              dynamicBullets: true,
-            }}
-            modules={[Pagination]}
-            className="mySwiper"
-          >
-            {listBanner.map((banner) => (
-              <SwiperSlide key={banner.id}>
-                <img src={`${banner.bannerImage}`} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </main>
-    </>
+    <main>
+      {!isBannersPending && <Slide data={banners} />}
+      {!isProductsPending && (
+        <ProductSection title="oxford" data={listProductHasTypeOxford} />
+      )}
+      {!isProductsPending && (
+        <ProductSection title="loafer" data={listProductHasTypeLoafer} />
+      )}
+      {!isProductsPending && (
+        <ProductSection title="boots" data={listProductHasTypeLBoots} />
+      )}
+      {!isProductsPending && (
+        <ProductSection title="derby" data={listProductHasTypeDerby} />
+      )}
+    </main>
   );
 }

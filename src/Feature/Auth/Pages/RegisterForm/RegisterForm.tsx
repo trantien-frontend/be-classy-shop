@@ -1,40 +1,58 @@
 import {} from "react";
-import { TextField } from "../../../../components";
+import { omit } from "lodash";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { RegisterFormData, schema } from "../../../../utils/rules";
+import { useMutation } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-export interface RegisterFormProp {}
+import { useForm } from "react-hook-form";
+import { userApi } from "../../../../apis";
+import { Button, TextField } from "../../../../components";
+import { RegisterResponse } from "../../../../types";
+import { RegisterFormData, schema } from "../../../../utils/rules";
+import { isAxiosUnprocessableEntityError } from "../../../../utils/ultis";
+import { toast } from "react-toastify";
 
-// export interface FormData {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   phone: number;
-//   password: string;
-//   confirm_password: string;
-// }
+export interface RegisterFormProp {}
 
 export function RegisterForm({}: RegisterFormProp) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    setError,
   } = useForm<RegisterFormData>({ resolver: yupResolver(schema) });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const registerAccountMutaion = useMutation({
+    mutationFn: (data: Omit<RegisterFormData, "confirm_password">) =>
+      userApi.register(data),
   });
 
-  // const rules = getRules(getValues);
+  const onSubmit = handleSubmit((formData) => {
+    const newFormData = omit(formData, ["confirm_password"]);
+    registerAccountMutaion.mutate(newFormData, {
+      onSuccess: () => {
+        toast("Register Success");
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<RegisterResponse>(error)) {
+          const formError = error.response?.data.body;
+          if (formError?.code == 1001) {
+            setError("email", {
+              type: "pattern",
+              message: formError.message,
+            });
+          }
+        }
+      },
+    });
+  });
+
   return (
     <div className="my-5">
       <div className="container mx-auto">
         <div className="register-form lg:w-2/5 lg:mx-auto">
           <div className="register-form-header text-center">
-            <h3 className="uppercase text-[26px] tracking-wide text-main-color font-normal pb-3">
+            <h3 className="uppercase text-[26px] tracking-wide text-color-primary font-normal pb-3">
               đăng ký tài khoản
             </h3>
             <p className="font-light">
@@ -87,12 +105,7 @@ export function RegisterForm({}: RegisterFormProp) {
               />
             </div>
             <div className="register-form-footer text-center">
-              <button
-                className="text-white font-normal border-[1px] border-main-color px-[80px] py-[14px] bg-main-color uppercase hover:bg-white hover:text-main-color"
-                type="submit"
-              >
-                Tạo tài khoản
-              </button>
+              <Button text="tạo tài khoản" />
               <div className="mt-5">
                 <Link
                   className="font-normal uppercase hover:text-main"

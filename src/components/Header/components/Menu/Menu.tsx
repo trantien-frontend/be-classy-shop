@@ -3,7 +3,6 @@ import { Category, ProductType } from "../../../../types";
 import { NavLink } from "react-router-dom";
 import { SubMenu } from "../SubMenu/SubMenu";
 import "./Style.scss";
-import { category } from "../../../../apis/CategoryApi";
 
 export interface NavigationProps {
   listCategory: Category[] | undefined;
@@ -53,7 +52,7 @@ export function Menu({ listCategory }: NavigationProps) {
 
   return (
     <>
-      <ul className="nav flex items-center border-y-[1px]">
+      <ul className="nav flex items-center border-t-[0.5px]">
         {newListCateogy?.map((category, i) => (
           <li
             onMouseMove={() => handleMouseMove(i)}
@@ -63,7 +62,7 @@ export function Menu({ listCategory }: NavigationProps) {
           >
             <NavLink
               className={({ isActive }) =>
-                isActive ? "text-main" : "hover:text-main"
+                `font-normal ${isActive ? "text-main" : "hover:text-main"}`
               }
               to={`/${category.categoryName}`}
             >

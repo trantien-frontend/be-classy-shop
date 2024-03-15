@@ -1,7 +1,16 @@
-import * as React from "react";
+export interface ButtonProps {
+  text: string;
+}
 
-export interface ButtonProps {}
-
-export default function Button(props: ButtonProps) {
-  return <div></div>;
+export function Button({ text }: ButtonProps) {
+  return (
+    <>
+      <button
+        className="uppercase font-light border-[1px] border-color-primary px-[28px] py-[14px] bg-color-primary text-white hover:bg-white hover:text-color-primary"
+        type="submit"
+      >
+        {text}
+      </button>
+    </>
+  );
 }

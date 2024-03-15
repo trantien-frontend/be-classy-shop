@@ -2,11 +2,13 @@ import {} from "react";
 import { Pagination as PaginationType } from "../../../../types";
 
 export interface PaginationProps {
-  pagination: PaginationType;
+  pagination: PaginationType | undefined;
   onClick: (page: number) => void;
 }
 
 export function Pagination({ pagination, onClick }: PaginationProps) {
+  if (!pagination) return <></>;
+
   const {
     pageNumber: curentPage,
     pageSize: perPage,
@@ -22,19 +24,20 @@ export function Pagination({ pagination, onClick }: PaginationProps) {
   }
 
   const totalPages = Math.ceil(totalElements / perPage);
+  console.log(totalPages);
   const handleChangePage = (page: number) => {
     onClick?.(page);
   };
 
   return (
     <div className="mt-10">
-      <ul className="pagination flex justify-center gap-2 font-medium">
+      <ul className="pagination flex justify-center gap-2 font-normal">
         {curentPage == 0 ? (
-          <li className="w-8 h-8 border-[1px] cursor-not-allowed text-center text-main-color bg-white leading-8">{`<`}</li>
+          <li className="w-8 h-8 border-[1px] cursor-not-allowed text-center text-color-primary bg-white  leading-8">{`<`}</li>
         ) : (
           <li
             onClick={() => handleChangePage(curentPage - 1)}
-            className="w-8 h-8 border-[1px] cursor-pointer text-center text-white bg-main-color leading-8"
+            className="w-8 h-8 border-[1px] cursor-pointer text-center text-white bg-color-primary leading-8"
           >{`<`}</li>
         )}
         {Array.from({ length: totalPages }, (v, i) => i).map((page) => {
@@ -50,7 +53,7 @@ export function Pagination({ pagination, onClick }: PaginationProps) {
           }
           return (
             <li
-              className="w-8 h-8 border-[1px] bg-main-color text-white text-center leading-8 cursor-pointer"
+              className="w-8 h-8 border-[1px] bg-color-primary text-white text-center leading-8 cursor-pointer"
               key={page}
               onClick={() => handleChangePage(page)}
             >
@@ -59,10 +62,10 @@ export function Pagination({ pagination, onClick }: PaginationProps) {
           );
         })}
         {curentPage == totalPages - 1 ? (
-          <li className="w-8 h-8 border-[1px] cursor-not-allowed text-center text-main-color bg-white leading-8">{`>`}</li>
+          <li className="w-8 h-8 border-[1px] cursor-not-allowed text-center text-color-primary bg-white leading-8">{`>`}</li>
         ) : (
           <li
-            className="w-8 h-8 border-[1px] cursor-pointer text-center text-white bg-main-color leading-8"
+            className="w-8 h-8 border-[1px] cursor-pointer text-center text-white bg-color-primary leading-8"
             onClick={() => handleChangePage(curentPage + 1)}
           >{`>`}</li>
         )}

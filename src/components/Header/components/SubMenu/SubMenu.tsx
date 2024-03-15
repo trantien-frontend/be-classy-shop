@@ -1,4 +1,3 @@
-import {} from "react";
 import { SubCategory } from "../Menu/Menu";
 import { Link } from "react-router-dom";
 
@@ -22,7 +21,7 @@ export function SubMenu({ isHover, subCategory }: SubMenuProps) {
       {subCategory?.map((subCategory) => (
         <li key={subCategory.id}>
           <Link
-            className="hover:text-main block py-2.5 px-[5px] border-b-[1px]"
+            className="font-normal hover:text-main block py-2.5 px-[5px] border-b-[1px]"
             to={`/${subCategory.subCategoryName}`}
           >
             {subCategory.subCategoryName}

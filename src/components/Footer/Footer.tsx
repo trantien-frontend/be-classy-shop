@@ -31,7 +31,7 @@ export function Footer({}: FooterProps) {
         <div className="footer-top py-4 md:flex">
           <FooterWidget imageSrc={Logo} list={addressList} />
           <FooterWidget title="hướng dẫn" list={widgetSecond} imageSrc={bct} />
-          <FooterWidget title="chinh sách" list={widgetSecond} />
+          <FooterWidget title="chính sách" list={widgetSecond} />
           <FooterWidget title="đăng ký nhận tin" list={widgetSecond} />
         </div>
         <div className="footer-bottom"></div>

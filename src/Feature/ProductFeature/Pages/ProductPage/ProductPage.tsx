@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import { productApi } from "../../../../apis/ProductApi";
 import {
@@ -11,8 +11,6 @@ import {
 } from "../../Components";
 import { Pagination as PaginationType, Product } from "../../../../types";
 
-export interface ProductPageProps {}
-
 function handleURL(path: string): string {
   const listCategory: string[] = ["dress%20shoes", "accessories"];
   const isCategoryURL = listCategory.includes(path.slice(1));
@@ -21,11 +19,12 @@ function handleURL(path: string): string {
     : `products/productType${path}`;
 }
 
-export function ProductPage({}: ProductPageProps) {
+export function ProductPage() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchParamObject = Object.fromEntries([...searchParams]);
 
-  const { pathname } = useLocation();
   const url = handleURL(pathname);
 
   const [params, setParams] = useState({
@@ -34,38 +33,22 @@ export function ProductPage({}: ProductPageProps) {
     sortby: searchParamObject.sortby || "",
   });
 
-  useEffect(() => {
-    (() => {
-      setSearchParams({ page: `${params.page + 1}`, limit: `${params.limit}` });
-    })();
-  }, []);
-
   const { data, isPending } = useQuery({
-    queryKey: ["products", params, url],
-    queryFn: () => productApi.getAll(url, { ...params }),
+    queryKey: ["products", url, params],
+    queryFn: () => productApi.getAll("/products", { ...params }),
   });
 
-  let productList: Product[] = [];
-  let pagination: PaginationType = {};
-
-  if (data) {
-    const { data: productData } = data;
-    productList = productData?.content;
-    pagination = productData?.pageable;
-  }
-
   const handelPageChange = (_page: number) => {
-    setParams({ ...params, page: _page });
-    setSearchParams({ page: `${_page + 1}`, limit: `${params.limit}` });
+    // setParams({ ...params, page: _page });
   };
 
   const handleFilterChange = (filter: string) => {
-    setParams({ ...params, sortby: filter });
-    setSearchParams({
-      page: `${params.page}`,
-      limit: `${params.limit}`,
-      sortby: params.sortby,
-    });
+    // setParams({ ...params, sortby: filter });
+    // setSearchParams({
+    //   page: `${params.page}`,
+    //   limit: `${params.limit}`,
+    //   sortby: params.sortby,
+    // });
   };
 
   return (
@@ -78,11 +61,11 @@ export function ProductPage({}: ProductPageProps) {
             </div>
             <div className="product-list basis-4/5">
               <ProductFilter onFilterChange={handleFilterChange} />
-              {!isPending && <ProductList products={productList} />}
+              {!isPending && <ProductList products={data?.data?.content} />}
 
               {!isPending && (
                 <Pagination
-                  pagination={pagination}
+                  pagination={data?.data.pageable}
                   onClick={(_page) => handelPageChange(_page)}
                 />
               )}

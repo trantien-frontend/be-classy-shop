@@ -7,7 +7,6 @@ export interface TextFieldProps {
   name: string;
   message?: string;
   register: UseFormRegister<any>;
-  rules?: RegisterOptions;
 }
 
 export function TextField({
@@ -15,7 +14,6 @@ export function TextField({
   type,
   name,
   message,
-  rules,
   register,
 }: TextFieldProps) {
   const nameCapitalize = title.charAt(0).toLocaleUpperCase() + title.slice(1);
@@ -31,7 +29,7 @@ export function TextField({
       </label>
       <input
         type={type}
-        {...register(name, { ...rules, onChange: (e) => {} })}
+        {...register(name, { onChange: (e) => {} })}
         className="w-full border-[1px] p-3 border-gray-300 bg-gray-200 font-normal outline-none focus:border-gray-500 rounded-sm focus: shadow-sm"
         placeholder={`Nhập ${nameCapitalize}`}
       />

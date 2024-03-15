@@ -1,13 +1,6 @@
 import {} from "react";
 import { Header } from "../../components";
-import {
-  NavLink,
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import { NavLink, Outlet, Route, Routes, useParams } from "react-router-dom";
 import { ProductDescription } from "./Components/ProductDescription";
 import { ProductReview } from "./Components/ProductReviews";
 
@@ -43,11 +36,7 @@ export function ProductDetail({}: ProductDetailProps) {
           </NavLink>
         </li>
       </ul>
-      <Routes>
-        <Route path="dsc" element={<ProductDescription />} />
-        <Route path="review" element={<ProductReview />} />
-        <Route index element={<ProductDescription />} />
-      </Routes>
+      <Outlet />
     </section>
   );
 }

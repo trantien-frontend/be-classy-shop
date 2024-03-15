@@ -22,21 +22,21 @@ export default function FooterWidget(props: FooterWidgetProps) {
             {list?.map((item, index) => {
               if (index == list.length - 2) {
                 return (
-                  <li key={index} className="font-medium mb-2 text-base">
+                  <li key={index} className="font-light mb-2 text-base">
                     <a href="#">{item}</a>
                   </li>
                 );
               }
               if (index == list.length - 1) {
                 return (
-                  <li key={index} className="font-medium mb-2 text-base">
+                  <li key={index} className="font-light mb-2 text-base">
                     <a href="#">{item}</a>
                   </li>
                 );
               }
 
               return (
-                <li key={index} className="font-medium mb-2 text-base">
+                <li key={index} className="font-light mb-2 text-base">
                   {item}
                 </li>
               );
@@ -50,7 +50,7 @@ export default function FooterWidget(props: FooterWidgetProps) {
           <h3 className="uppercase mb-3.5 py-3">{title}</h3>
           <ul className="mb-2">
             {list?.map((item, index) => (
-              <li className="font-medium text-base mb-2" key={index}>
+              <li className="font-light text-base mb-2" key={index}>
                 {item}
               </li>
             ))}

@@ -1,9 +1,4 @@
-import {} from "react";
-import { Header } from "../components";
-
-export interface NotFoundProps {}
-
-export default function NotFound(props: NotFoundProps) {
+export default function NotFound() {
   return (
     <>
       <section>
