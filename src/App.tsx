@@ -1,25 +1,15 @@
 import {} from "react";
-
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import { HomePage } from "./pages/HomePage/HomePage";
-import NotFound from "./pages/NotFound";
-import ProductFeature from "./Feature/ProductFeature/ProductFeature";
-import { Footer, Header } from "./components";
-import { LoginForm, RegisterForm } from "./Feature/Auth";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { useRoutesElement } from "./hook/useRoutesElement";
 
 function App() {
-  // const routes = useRoutes([
-  //   { path: "/", element: <HomePage /> },
-  //   { path: "dress shoes", element: <ProductFeature /> },
-  //   { path: "accessories", element: <ProductFeature /> },
-  //   { path: "collection", element: <ProductFeature /> },
-  //   { path: "*", element: <NotFound /> },
-  // ]);
+  const routes = useRoutesElement();
   return (
     <section id="wrapper">
-      <Header />
-      <Routes>
+      {/* <Header /> */}
+      {/* <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="dress shoes/*" element={<ProductFeature />} />
         <Route path="oxford/*" element={<ProductFeature />} />
@@ -28,11 +18,15 @@ function App() {
         <Route path="boots/*" element={<ProductFeature />} />
         <Route path="accessories/*" element={<ProductFeature />} />
         <Route path="collection/*" element={<ProductFeature />} />
+        <Route path="belt/*" element={<ProductFeature />} />
+        <Route path="wallet/*" element={<ProductFeature />} />
         <Route path="register" element={<RegisterForm />} />
         <Route path="login" element={<LoginForm />} />
         <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      </Routes> */}
+      {/* <Footer /> */}
+      {routes}
+      <ToastContainer />
     </section>
   );
 }

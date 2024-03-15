@@ -12,8 +12,10 @@ export interface Product {
 }
 
 export interface Products {
-  content: Product[];
-  pageable?: Pagination;
+  data: {
+    content: Product[];
+    pageable?: Pagination;
+  };
 }
 
 export interface ProductType {

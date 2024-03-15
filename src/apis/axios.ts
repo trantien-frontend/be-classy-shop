@@ -1,7 +1,8 @@
-import axios from "axios";
+import axios, { AxiosError, isAxiosError } from "axios";
+import { RegisterForm } from "../Feature/Auth";
 
 export const axiosClient = axios.create({
-  baseURL: "http://localhost:8081/api",
+  baseURL: "http://localhost:8081/api/v1",
   headers: { "Content-Type": "application/json" },
 });
 
@@ -21,7 +22,6 @@ axiosClient.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    const { data } = response;
     return response;
   },
   function (error) {

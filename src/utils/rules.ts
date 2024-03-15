@@ -31,7 +31,7 @@ export const schema = yup.object({
   password: yup
     .string()
     .required(REQUIRED_MESSAGE)
-    .min(6, "Độ dài từ 5-160 ký tự")
+    .min(4, "Độ dài từ 4-160 ký tự")
     .max(160, "Độ dài từ 5-160 ký tự"),
   confirm_password: yup
     .string()
@@ -46,7 +46,7 @@ export const loginSchema = schema.omit([
   "confirm_password",
 ]);
 
-export interface LoginFormDate extends yup.InferType<typeof loginSchema> {}
+export interface LoginFormData extends yup.InferType<typeof loginSchema> {}
 export interface RegisterFormData extends yup.InferType<typeof schema> {}
 
 // export const getRules = (getValues?: UseFormGetValues<any>): Rules => {
