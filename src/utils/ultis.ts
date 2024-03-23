@@ -9,3 +9,15 @@ export function isAxiosUnprocessableEntityError<FormError>(
 ): error is AxiosError<FormError> {
   return isAxiosError(error) && error.response?.status === 422;
 }
+
+export function isAxiosNotFound<FormError>(
+  error: unknown,
+): error is AxiosError<FormError> {
+  return isAxiosError(error) && error.response?.status === 404;
+}
+
+export function isAxiosBadRequest<FormError>(
+  error: unknown,
+): error is AxiosError<FormError> {
+  return isAxiosError(error) && error.response?.status === 400;
+}

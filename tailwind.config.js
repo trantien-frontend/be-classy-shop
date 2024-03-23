@@ -15,6 +15,7 @@ export default {
         main: "#916841",
         "mid-white": "#f9f9f9",
         "color-primary": "#1c1c1c",
+        "color-secondary": "#0657a3",
         "text-secondary": "#333",
       },
       fontFamily: {

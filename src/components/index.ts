@@ -3,3 +3,5 @@ export * from "./Footer/Footer";
 export * from "./Breadcrumb/Breadcrumb";
 export * from "./TextField/TextField";
 export * from "./Button/Button";
+
+export * from "./InputNumber/InputNumber";

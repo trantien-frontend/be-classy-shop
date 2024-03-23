@@ -5,10 +5,10 @@ export interface Product {
   productName: string;
   productPrice: number;
   productImage: string;
-  category: Category;
   productType: ProductType;
-  Sizes: Size[];
-  Colors: Color[];
+  category: Category;
+  Sizes?: Size[];
+  Colors?: Color[];
 }
 
 export interface Products {
@@ -24,8 +24,8 @@ export interface ProductType {
 }
 
 export interface Size {
-  id?: number | string;
-  sizeName?: string;
+  id: number | string;
+  sizeName: string;
 }
 
 export interface Color {
@@ -34,9 +34,9 @@ export interface Color {
 }
 
 export interface Pagination {
-  pageNumber?: number;
-  pageSize?: number;
-  totalElements?: number;
+  pageNumber: number;
+  pageSize: number;
+  totalElements: number;
 }
 
 export interface Params {

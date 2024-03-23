@@ -7,12 +7,19 @@ export const productApi = {
   },
 
   getProducts() {
-    const url = "/products/listProduct";
+    const url = "/products/productList";
     return axiosClient.get(url);
   },
 
-  getProductById(id: number | string): Promise<Product> {
+  getProductById(id: number | string): Promise<{ data: Product }> {
     const url = `/products/${id}`;
     return axiosClient.get(url);
+  },
+
+  getProductByProductType(params: {
+    q: string | undefined;
+  }): Promise<{ data: Product[] }> {
+    const url = "/products/search";
+    return axiosClient.get(url, { params });
   },
 };
