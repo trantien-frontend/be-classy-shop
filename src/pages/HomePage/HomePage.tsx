@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { bannerApi } from "../../apis/bannerApi";
-import { Slide } from "./components/Slide";
-import { productApi } from "../../apis";
 import { Product } from "../../types";
-import { ProductSection } from "./components/ProductSection";
+import { productApi } from "../../apis";
+import { bannerApi } from "../../apis/bannerApi";
+import { ProductSection, Slide } from "./components";
 
 function filterProducts(
   products: Product[],

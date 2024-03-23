@@ -1,20 +1,17 @@
-import {} from "react";
 import { omit } from "lodash";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useForm } from "react-hook-form";
-import { userApi } from "../../../../apis";
-import { Button, TextField } from "../../../../components";
-import { RegisterResponse } from "../../../../types";
-import { RegisterFormData, schema } from "../../../../utils/rules";
-import { isAxiosUnprocessableEntityError } from "../../../../utils/ultis";
-import { toast } from "react-toastify";
+import { userApi } from "../../apis";
+import { Button, TextField } from "../../components";
+import { RegisterFormData, schema } from "../../utils/rules";
+import { ApiResponse, ErrorResponse } from "../../types";
+import { isAxiosUnprocessableEntityError } from "../../utils/ultis";
 
-export interface RegisterFormProp {}
-
-export function RegisterForm({}: RegisterFormProp) {
+export function Register() {
   const {
     register,
     handleSubmit,
@@ -28,13 +25,17 @@ export function RegisterForm({}: RegisterFormProp) {
   });
 
   const onSubmit = handleSubmit((formData) => {
+    if (registerAccountMutaion.isPending) return;
     const newFormData = omit(formData, ["confirm_password"]);
     registerAccountMutaion.mutate(newFormData, {
       onSuccess: () => {
         toast("Register Success");
       },
       onError: (error) => {
-        if (isAxiosUnprocessableEntityError<RegisterResponse>(error)) {
+        if (
+          isAxiosUnprocessableEntityError<ApiResponse<ErrorResponse>>(error) &&
+          error.config?.url == "/auth/register"
+        ) {
           const formError = error.response?.data.body;
           if (formError?.code == 1001) {
             setError("email", {
@@ -105,7 +106,12 @@ export function RegisterForm({}: RegisterFormProp) {
               />
             </div>
             <div className="register-form-footer text-center">
-              <Button text="tạo tài khoản" />
+              <Button
+                type="submit"
+                isPending={registerAccountMutaion.isPending}
+              >
+                Tạo tài khoản
+              </Button>
               <div className="mt-5">
                 <Link
                   className="font-normal uppercase hover:text-main"

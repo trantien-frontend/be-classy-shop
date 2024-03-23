@@ -4,7 +4,7 @@ import { Product } from "../../../Feature/ProductFeature/Components/Product/Prod
 import { Button } from "../../../components";
 
 export interface ProductSectionProps {
-  title: string;
+  title?: string;
   data: ProductType[];
 }
 
@@ -24,7 +24,7 @@ export function ProductSection({ title, data: products }: ProductSectionProps) {
         </div>
         <div className="text-center py-5">
           <Link to={`/${title}`}>
-            <Button text={`xem tất cả. ${title}`} />
+            <Button>xem tất cả {title}</Button>
           </Link>
         </div>
       </div>

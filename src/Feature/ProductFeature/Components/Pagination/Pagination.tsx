@@ -1,30 +1,18 @@
-import {} from "react";
 import { Pagination as PaginationType } from "../../../../types";
 
 export interface PaginationProps {
-  pagination: PaginationType | undefined;
+  pagination: PaginationType;
   onClick: (page: number) => void;
 }
 
 export function Pagination({ pagination, onClick }: PaginationProps) {
-  if (!pagination) return <></>;
-
   const {
     pageNumber: curentPage,
     pageSize: perPage,
     totalElements,
   } = pagination;
 
-  if (
-    perPage == undefined ||
-    totalElements == undefined ||
-    curentPage == undefined
-  ) {
-    return <></>;
-  }
-
   const totalPages = Math.ceil(totalElements / perPage);
-  console.log(totalPages);
   const handleChangePage = (page: number) => {
     onClick?.(page);
   };

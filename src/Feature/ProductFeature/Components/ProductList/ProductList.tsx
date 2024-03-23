@@ -3,7 +3,7 @@ import { Product as ProductType } from "../../../../types";
 import { Product } from "../Product/Product";
 
 export interface ProductListProps {
-  products: ProductType[] | undefined;
+  products: ProductType[];
 }
 
 export function ProductList({ products }: ProductListProps) {

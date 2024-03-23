@@ -1,20 +1,25 @@
-import {} from "react";
-import { TextField } from "../../../../components";
-import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup/src/yup.js";
-import { LoginFormData, loginSchema } from "../../../../utils/rules";
+import { AppContext } from "../../context/app.context";
+import { useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { userApi } from "../../../../apis";
+import { yupResolver } from "@hookform/resolvers/yup/src/yup.js";
+import { Link, useNavigate } from "react-router-dom";
 
-export interface LoginFormProps {}
+import { userApi } from "../../apis";
+import { Button, TextField } from "../../components";
+import { LoginFormData, loginSchema } from "../../utils/rules";
+import { ApiResponse, ErrorResponse } from "../../types";
+import { isAxiosBadRequest, isAxiosNotFound } from "../../utils/ultis";
 
-export function LoginForm(props: LoginFormProps) {
+export function Login() {
+  const { setIsAuthenticated } = useContext(AppContext);
+  const navigate = useNavigate();
   const {
-    register,
-    formState: { errors },
-    handleSubmit,
     setError,
+    register,
+    handleSubmit,
+    formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
 
   const loginMutation = useMutation({
@@ -22,12 +27,40 @@ export function LoginForm(props: LoginFormProps) {
   });
 
   const onsSubmit = handleSubmit((formData) => {
-    console.log(formData);
+    if (loginMutation.isPending) return;
     loginMutation.mutate(formData, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
+        setIsAuthenticated(true);
+        navigate("/account");
+        toast("login success");
       },
-      onError: (error) => {},
+      onError: (error) => {
+        if (
+          isAxiosNotFound<ApiResponse<ErrorResponse>>(error) &&
+          error.response?.config.url === "/auth/signin"
+        ) {
+          const formError = error.response.data?.body;
+          if (formError?.code === 1002) {
+            setError("email", {
+              type: "pattern",
+              message: formError.message,
+            });
+          }
+        }
+
+        if (
+          isAxiosBadRequest<ApiResponse<ErrorResponse>>(error) &&
+          error.response?.config.url === "/auth/signin"
+        ) {
+          const formError = error.response.data?.body;
+          if (formError?.code === 1003) {
+            setError("password", {
+              type: "pattern",
+              message: formError.message,
+            });
+          }
+        }
+      },
     });
   });
 
@@ -59,12 +92,9 @@ export function LoginForm(props: LoginFormProps) {
                 />
               </div>
               <div className="login-form-footer text-center">
-                <button
-                  className="text-white font-normal border-[1px] border-color-primary px-[80px] py-[14px] bg-color-primary uppercase hover:bg-white hover:text-color-primary"
-                  type="submit"
-                >
+                <Button type="submit" isPending={loginMutation.isPending}>
                   đăng nhập
-                </button>
+                </Button>
                 <div className="mt-5">
                   <Link
                     className="font-normal uppercase hover:text-main"

@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 
 export interface BreadcrumbProps {
-  productType?: string;
-  productName?: string;
+  pathBasdeFirst?: string;
+  pathBasdeSecond?: string;
 }
 
-export function Breadcrumb({ productType, productName }: BreadcrumbProps) {
+export function Breadcrumb({
+  pathBasdeFirst,
+  pathBasdeSecond,
+}: BreadcrumbProps) {
   return (
     <div className="breadcrumb border-y-[0.5px]">
       <div className="container mx-auto">
@@ -16,17 +19,26 @@ export function Breadcrumb({ productType, productName }: BreadcrumbProps) {
             </Link>
           </li>
 
-          <li className="font-normal">
-            <span className="text-sm mx-2">{">"}</span>
-            <Link className="uppercase hover:text-main" to={`/${productType}`}>
-              {productType}
-            </Link>
-          </li>
+          {pathBasdeFirst && (
+            <li className="font-normal">
+              <span className="text-sm mx-2">{">"}</span>
+              <Link
+                className="uppercase hover:text-main"
+                to={`/${pathBasdeFirst}`}
+              >
+                {pathBasdeFirst}
+              </Link>
+            </li>
+          )}
 
-          <li className="font-normal">
-            <span className="text- mx-2">{">"}</span>
-            <span className="uppercase font-bold text-main">{productName}</span>
-          </li>
+          {pathBasdeSecond && (
+            <li className="font-normal">
+              <span className="text-sm mx-2">{">"}</span>
+              <span className="uppercase font-bold text-main">
+                {pathBasdeSecond}
+              </span>
+            </li>
+          )}
         </ul>
       </div>
     </div>

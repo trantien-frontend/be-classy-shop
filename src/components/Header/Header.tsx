@@ -1,17 +1,28 @@
-import {} from "react";
+import { useContext } from "react";
 import logo from "../../assets/images/be-classy-logo.png";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { category } from "../../apis/categoryApi";
 import { Menu } from "./components/Menu/Menu";
+import { AppContext } from "../../context/app.context";
+import { getUserFromLS } from "../../utils/auth";
+import { User } from "../../types/user.type";
 
 interface HeaderProps {}
 
 export function Header({}: HeaderProps) {
+  const { isAuthenticated, setIsAuthenticated } = useContext(AppContext);
   const { data, isPending } = useQuery({
     queryKey: ["categories"],
     queryFn: category.getAll,
   });
+
+  const user: User | null = getUserFromLS();
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.clear();
+  };
 
   return (
     <header>
@@ -40,22 +51,44 @@ export function Header({}: HeaderProps) {
                   tài khoản
                 </a>
                 <ul className="w-full min-w-52 bg-white rounded-sm border-[1px] border-[#efefef]shadow absolute left-[-0.5rem] top-[200%]">
-                  <li>
-                    <Link
-                      className="font-normal uppercase text-sm px-4 py-3 block hover:text-main hover:bg-[#f7f7f7]"
-                      to="/register"
-                    >
-                      đăng nhập
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="font-normal uppercase text-sm px-4 py-3 block hover:text-main hover:bg-[#f7f7f7]"
-                      to="/login"
-                    >
-                      đăng ký
-                    </Link>
-                  </li>
+                  {!isAuthenticated && (
+                    <>
+                      <li>
+                        <Link
+                          className="font-normal uppercase text-sm px-4 py-3 block hover:text-main hover:bg-[#f7f7f7]"
+                          to="/register"
+                        >
+                          đăng ký
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="font-normal uppercase text-sm px-4 py-3 block hover:text-main hover:bg-[#f7f7f7]"
+                          to="/login"
+                        >
+                          đăng nhập
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                  {isAuthenticated && (
+                    <>
+                      <li>
+                        <Link
+                          className="font-normal capitalize text-sm px-4 py-3 block hover:text-main hover:bg-[#f7f7f7]"
+                          to="/account"
+                        >
+                          {`${user?.firstName} ${user?.lastName}`}
+                        </Link>
+                      </li>
+                      <li
+                        onClick={handleLogout}
+                        className="font-normal uppercase text-sm px-4 py-3 block hover:text-main hover:bg-[#f7f7f7]"
+                      >
+                        logout
+                      </li>
+                    </>
+                  )}
                 </ul>
               </li>
               <li className="flex items-center ml-6 hover:text-main">
@@ -80,20 +113,22 @@ export function Header({}: HeaderProps) {
                 </span>
               </li>
               <li className="search ml-4 hover:text-main cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
+                <Link to={"/search"}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                    />
+                  </svg>
+                </Link>
               </li>
             </ul>
           </div>
